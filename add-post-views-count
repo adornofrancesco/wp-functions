@@ -1,0 +1,42 @@
+With this function you can display views count for each post.
+
+1. Copy this function in your functions.php
+2. Save and refresh
+3. Paste <?php echo getPostViews(get_the_ID()); ?> on single.php (in the position where you want)
+4. Save and refresh
+5. Visit your post and see how it works
+
+
+-----> Copy and paste it on functions.php from line 13 to line 42 (supp. that you write on <?php ;?>)
+
+
+/*=============================================
+=          ADD POST VIEWS COUNT               =
+=============================================*/
+
+
+function getPostViews($postID){
+    $count_key = 'post_views_count';
+    $count = get_post_meta($postID, $count_key, true);
+    if($count==''){
+        delete_post_meta($postID, $count_key);
+        add_post_meta($postID, $count_key, '0');
+        return "0 visite";
+    }
+    return $count.' Visite';
+}
+ 
+function setPostViews($postID) {
+    $count_key = 'post_views_count';
+    $count = get_post_meta($postID, $count_key, true);
+    if($count==''){
+        $count = 0;
+        delete_post_meta($postID, $count_key);
+        add_post_meta($postID, $count_key, '0');
+    }else{
+        $count++;
+        update_post_meta($postID, $count_key, $count);
+    }
+}
+ 
+remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
