@@ -1,0 +1,40 @@
+With this function you can set Google AdSense ad unit on post type
+
+1. Add this function in your functions.php
+2. Copy your Google AdSense code
+3. Paste it on line 22 (delete "paste it your....)
+4. Save and refresh
+5. Visit your post and see how it works
+
+
+-----> Copy and paste it on functions.php from line 14 to line 40 (supp. that you write on <?php ;?>)
+
+
+
+/*=============================================
+=   ADD GOOGLE ADSENSE ON POST ON 2ND PARAGR. =
+=============================================*/
+
+add_filter('the_content', 'adsense_second_paragraph');
+function adsense_second_paragraph($content){
+    if(is_single()){
+        //ads code
+        $adsCode = '<div class="text-center mb-2"> { paste it your custom code } </div>';
+        
+        // show this ad on number of paragraph - example -> 2 = After second paragraph
+        $insertAfter = 2;
+        
+        $closingP = '</p>';
+        $contentBlock = explode($closingP, $content);
+        foreach($contentBlock as $key => $con){
+            if(trim($con)) {
+                $contentBlock[$key] .= $closingP;
+            }
+            if(($key + 1) == $insertAfter){ 
+                $contentBlock[$key] .= $adsCode;
+            }
+        }
+        $content = implode('', $contentBlock);
+    }
+    return $content;    
+}
