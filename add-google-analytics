@@ -1,0 +1,62 @@
+With this function you can set Google Analytics tracking (or Shinystat or Facebook Pixel)
+
+1. Show Google Analytics label on WordPress Customizer (works with all themes)
+2. Copy your Google Analytics tracking code from Google Analytics account (analytics.google.com)
+3. Paste your Google Analytics tracking code in the label
+4. Save and refresh the page. Than open GA account for this property and show that is worked.
+
+
+-----> Copy and paste it on functions.php from line 15 to line 62 (supp. that you write on <?php ;?>)
+
+
+
+
+
+/*=============================================
+=           ADD GOOGLE TAG ON CUSTOMIZER                  =
+=============================================*/
+function googletag_register($wp_customize)
+{
+
+$wp_customize->add_section('googletag' , array(
+'title' => __('Google Analytics' , privacy_cta_section),
+'priority' => 10,
+));
+	
+	
+/*=============================================
+=                       ADD SCRIPT ON GOOGLE TAG                =
+=============================================*/
+
+$wp_customize->add_setting('googletag_script_settaggio' , array(
+'default' => 'Incolla qui il codice di monitoraggio',
+'transport' => 'refresh',
+));
+
+$wp_customize->add_control(new WP_Customize_Control(
+ $wp_customize,
+ 'googletag_script_label',
+ array(
+ 'label' => __('Codice Analytics' , 'googletag_script_control'),
+ 'section' => 'googletag',
+ 'settings' => 'googletag_script_settaggio',
+ 'type' => 'textarea',
+ )
+));	
+	
+
+}
+
+add_action('customize_register' , 'googletag_register');
+
+
+/*=============================================
+=         ADD HOOK FOR SCRIPT ON GOOGLE TAG          =
+=============================================*/
+
+function add_google_tag() {
+    ?>
+        <?php echo get_theme_mod('googletag_script_settaggio');  ?>
+    <?php
+}
+add_action('wp_footer', 'add_google_tag');
