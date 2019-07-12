@@ -5,7 +5,7 @@ With this function you can create new sidebar and set:
 3. Add class for this sidebar - ex: <aside id="%1$s" class="my-custom-sidebar-class">
 4. Set the HTML attribute for widget title - ex: <div> or <h4>
 
------> Copy from line 10 to line 21 (supp. that you write on <?php ;?>)
+-----> Copy and paste it on functions.php from line 10 to line 21 (supp. that you write on <?php ;?>)
 
 function my_custom_sidebar() {
 	register_sidebar( array(
