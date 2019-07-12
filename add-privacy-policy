@@ -1,0 +1,76 @@
+With this function you can set Privacy Policy with custom field on WordPress Customizer
+
+1. For Iubenda's customers, you can add Privacy Policy
+2. Add label on WordPress Customizer with "Privacy Policy"
+3. Add label for set the url of Iubenda (or other)
+4. Add button on footer with Privacy Policy
+5. Add modal for open Privacy Policy information
+
+
+-----> Copy and paste it on functions.php from line 13 to line 68 (supp. that you write on <?php ;?>)
+
+
+/*=============================================
+=       ADD PRIVACY ON CUSTOMIZER           =
+=============================================*/
+function privacy_cta_register($wp_customize)
+{
+
+$wp_customize->add_section('privacy_cta' , array(
+'title' => __('Privacy' , privacy_cta_section),
+'priority' => 10,
+));
+
+
+/*=============================================
+=          ADD TITLE ON PRIVACY              =
+=============================================*/
+$wp_customize->add_setting('privacy_cta_title_settaggio' , array(
+'default' => 'Intestazione Privacy',
+'transport' => 'refresh',
+));
+
+$wp_customize->add_control(new WP_Customize_Control(
+ $wp_customize,
+ 'privacy_cta_title_label',
+ array(
+ 'label' => __('Intestazione Privacy' , 'privacy_cta_title_control'),
+ 'section' => 'privacy_cta',
+ 'settings' => 'privacy_cta_title_settaggio',
+ 'type' => 'text',
+ )
+));
+	
+	
+/*=============================================
+=     ADD BTN LINK ON PRIVACY            =
+=============================================*/
+
+$wp_customize->add_setting('privacy_cta_btn_link_settaggio' , array(
+'default' => 'https://www.iubenda.com/xxxxxx',
+'transport' => 'refresh',
+));
+
+$wp_customize->add_control(new WP_Customize_Control(
+ $wp_customize,
+ 'privacy_cta_btn_link_label',
+ array(
+ 'label' => __('Link Privacy Iubenda' , 'privacy_cta_btn_link_control'),
+ 'section' => 'privacy_cta',
+ 'settings' => 'privacy_cta_btn_link_settaggio',
+ 'type' => 'text',
+ )
+));	
+	
+
+}
+
+add_action('customize_register' , 'privacy_cta_register');
+
+
+-----> Copy and paste it on footer.php from line 74 to line 76 (before </footer> tag)
+
+
+<a rel="nofollow" target="_blank" class="text-white iubenda-white iubenda-embed" href="<?php echo get_theme_mod('privacy_cta_btn_link_settaggio');  ?>" class="text-white"><?php echo get_theme_mod('privacy_cta_title_settaggio');  ?></a>
+<!-- IUBENDA SCRIPT ---->
+<script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
