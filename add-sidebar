@@ -1,0 +1,21 @@
+With this function you can create new sidebar and set:
+
+1. Title of sidebar widget (Add your custom title for each Sidebar - ex: Left Sidebar or Right Sidebar
+2. Description of sidebar widget (you can remember....)
+3. Add class for this sidebar - ex: <aside id="%1$s" class="my-custom-sidebar-class">
+4. Set the HTML attribute for widget title - ex: <div> or <h4>
+
+-----> Copy from line 10 to line 21 (supp. that you write on <?php ;?>)
+
+function my_custom_sidebar() {
+	register_sidebar( array(
+		'name'          => esc_html__( 'Sidebar Banner', 'popper' ),
+		'id'            => 'sidebar-banner',
+		'description'   => '',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s sidebar__inner">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<div class="widget-title">',
+		'after_title'   => '</div>',
+	) );
+}
+add_action( 'widgets_init', 'my_custom_sidebar' );
