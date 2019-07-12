@@ -1,0 +1,11 @@
+With this function you can customize post excerpt
+
+1. Change lenght for excerpt
+2. Set value of letters - ex: return 14; show 14 letters of excerpt
+
+-----> Copy and paste it on functions.php from line 8 to line 11 (supp. that you write on <?php ;?>)
+
+function custom_excerpt_length( $length ) {
+    return 14;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
