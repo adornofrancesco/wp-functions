@@ -1,0 +1,26 @@
+With this function you can set reading times on post type
+
+1. Add this function in your functions.php
+2. Paste it on line 22 (delete "paste it your....)
+3. Save and refresh
+5. Visit your post and see how it works
+
+
+-----> Copy and paste it on functions.php from line 14 to line 24 (supp. that you write on <?php ;?>)
+
+-----> Then, go to on single.php or template-parts/content and paste this code where do you want to show reading times:
+
+      <?php echo prefix_estimated_reading_time( get_the_content() ); ?>
+
+
+/*=============================================
+=              READING TIME                =
+=============================================*/
+
+function prefix_estimated_reading_time( $content = '', $wpm = 300 ) {
+	$clean_content = strip_shortcodes( $content );
+	$clean_content = strip_tags( $clean_content );
+	$word_count = str_word_count( $clean_content );
+	$time = ceil( $word_count / $wpm );
+	return $time;
+}
