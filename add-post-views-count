@@ -9,6 +9,10 @@ With this function you can display views count for each post.
 
 -----> Copy and paste it on functions.php from line 13 to line 42 (supp. that you write on <?php ;?>)
 
+-----> Then, go to single.php or template-parts/content and paste before loop:
+      <!---POST VIEWS COUNT ---->
+      <?php setPostViews(get_the_ID()); ?>
+
 
 /*=============================================
 =          ADD POST VIEWS COUNT               =
