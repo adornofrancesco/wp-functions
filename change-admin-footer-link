@@ -1,0 +1,8 @@
+
+/*=============================================
+=       CHANGE LINK ADMIN FOOTER        =
+=============================================*/
+function remove_footer_admin () {
+echo 'Powered by <a href="https://www.francescoadorno.it" target="_blank">Francesco Adorno</a>';
+}
+add_filter('admin_footer_text', 'remove_footer_admin');
