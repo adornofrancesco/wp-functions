@@ -1,0 +1,23 @@
+/************ DESCRIPTION ********************/
+
+When it comes to WordPress performance, this question comes up quite a bit, and that is how to remove query strings from static resources.
+Your CSS and JavaScript files usually have the file version on the end of their URLs, such as domain.com/style.css?ver=4.6.
+Some servers and proxy servers are unable to cache query strings, even if a cache-control:public header is present.
+
+************ END DESCRIPTION ********************/
+
+Open functions.php
+At the end, add this:
+
+function remove_query_strings() {
+   if(!is_admin()) {
+       add_filter('script_loader_src', 'remove_query_strings_split', 15);
+       add_filter('style_loader_src', 'remove_query_strings_split', 15);
+   }
+}
+
+function remove_query_strings_split($src){
+   $output = preg_split("/(&ver|\?ver)/", $src);
+   return $output[0];
+}
+add_action('init', 'remove_query_strings');
