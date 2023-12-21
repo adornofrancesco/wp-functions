@@ -1,0 +1,11 @@
+/* GET CANONICAL URL FOR NEWS PAGINATION
+--------------------------------------------------------------------------------------*/
+
+add_filter('get_canonical_url', 'custom_canonical_for_pagination', 10, 2);
+function custom_canonical_for_pagination($canonical, $post) {
+    if (is_paged()) {
+        // Imposta il canonical sulla URL specifica della pagina nella paginazione
+        return get_pagenum_link(get_query_var('paged'));
+    }
+    return $canonical;
+}
