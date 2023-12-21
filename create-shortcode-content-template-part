@@ -1,0 +1,10 @@
+/*========================================================
+=  CREATE CUSTOM SHORTCODE WITH CONTENT FROM TEMPLATE PART  =
+========================================================*/
+
+function ctabutton_function( $attr ) {
+    ob_start();
+    get_template_part( 'shortcode/cta-button' );
+    return ob_get_clean();
+}
+add_shortcode( 'cta', 'ctabutton_function' );
