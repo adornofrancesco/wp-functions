@@ -1,0 +1,11 @@
+/* REMOVE HREF LANG X DEFAULT
+--------------------------------------------------------------------------------------*/
+
+add_filter('wpml_hreflangs', 'remove_xdefault_hreflang');
+
+function remove_xdefault_hreflang($hreflangs) {
+    if(isset($hreflangs['x-default'])) {
+        unset($hreflangs['x-default']);
+    }
+    return $hreflangs;
+}
