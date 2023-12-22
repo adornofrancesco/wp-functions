@@ -1,0 +1,89 @@
+<?php
+/*
+Plugin Name: WPForms Dati
+Description: Visualizza i dati WPForms in una tabella nell'amministratore.
+Version: 1.0
+Author: Derma Web Agency
+Author URI: https://derma.it/
+*/
+
+// Aggiungo voce di menu nella dashboard di amministrazione
+add_action('admin_menu', 'aggiungiMenuAdmin');
+
+function aggiungiMenuAdmin() {
+    add_menu_page(
+        'Dati WPForms Donazione',             // Titolo della pagina
+        'WPForms Donazione',             // Titolo del menu
+        'manage_options',           // Capability
+        'wpforms-dati',       // Slug del menu
+        'mostraDatiWPForms',        // Funzione per mostrare i dati
+        'dashicons-list-view',      // Icona del menu
+        8                           // Posizione nel menu
+    );
+}
+
+// Funzione per visualizzare i dati WPForms
+function mostraDatiWPForms() {
+    global $wpdb;
+    $form_id = 1062; // Sostituisci con il tuo ID del modulo WPForms
+
+    $query = $wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}wpforms_entries WHERE form_id = %d ORDER BY date DESC",
+        $form_id
+    );
+
+    $results = $wpdb->get_results($query);
+	
+
+    // Passo 1: Creare un array per i nomi dei campi
+    $field_names = [];
+
+    foreach ($results as $row) {
+        $fields = json_decode($row->fields, true);
+        if ($fields) {
+            foreach ($fields as $field) {
+                if (!in_array($field['name'], $field_names)) {
+                    $field_names[] = $field['name'];
+                }
+            }
+        }
+    }
+
+    echo '<div class="wrap" style="padding:1rem;"><h1 style="margin-bottom:1em;">Dati WPForms Donazione 1062</h1>';
+    if (count($results) > 0) {
+        echo '<table style="display:block !important; height: 600px;overflow-x: auto !important;" class="wp-list-table widefat fixed striped">';
+        // Passo 2 e 3: Generare l'intestazione della tabella
+        echo '<thead style="position: sticky;top: 0;z-index: 1;background: #dedede;"><tr><th style="width:50px;">ID</th><th style="width:50px;">Data</th>';
+        foreach ($field_names as $name) {
+            echo '<th style="width: 100px;max-width: 150px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" title="' . esc_html($name) . '">' . esc_html($name) . '</th>';
+        }
+        echo '</tr></thead>';
+        echo '<tbody>';
+        foreach ($results as $row) {
+            echo '<tr>';
+            echo '<td style="border-bottom:1px solid #dedede;border-right: 1px solid #dedede;">' . esc_html($row->entry_id) . '</td>';
+            echo '<td style="border-bottom:1px solid #dedede;border-right: 1px solid #dedede;">' . esc_html($row->date_created) . '</td>';
+
+            $fields = json_decode($row->fields, true);
+            if ($fields) {
+                foreach ($field_names as $name) {
+                    $value = '';
+                    foreach ($fields as $field) {
+                        if ($field['name'] == $name) {
+                            $value = $field['value'];
+                            break;
+                        }
+                    }
+                    echo '<td style="border-bottom:1px solid #dedede;border-right: 1px solid #dedede;white-space: nowrap;">' . esc_html($value) . '</td>';
+                }
+            }
+            echo '</tr>';
+        }
+        echo '</tbody></table>';
+    } else {
+        echo 'Nessun dato trovato per il modulo specificato.';
+    }
+    echo '</div>';
+}
+
+?>
