@@ -1,0 +1,161 @@
+ADD ICONS ABOVE CUSTOMER NAME ON ORDERS LIST
+
+With this function, add 4 icons to the Woocommerce order list (under the customer's name):
+
+1) Telephone
+2) Whatsapp
+3) Email
+4) Cart icon with purchased products counter
+
+1. Telephone
+onclick you will call customer phone number
+
+2. WhatsApp
+onclick you will open WhatsApp chat with customer number phone
+
+3. Email
+onclick you will open and write an email with customer e-mail address
+
+4. Cart icon
+onclick you will be redirected to the thank you page of the purchased order
+
+/*=============================================
+=     ADD ADMIN CSS ORDER
+=============================================*/
+
+add_action('admin_head', 'add_style_order_info_icons');
+
+function add_style_order_info_icons() {
+?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<style>
+mark.order-status.status-custom-status.tips {
+    background: #008000 !important;
+    color: #fff !important;
+    border: 1px solid green;
+    font-weight: 500;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+.status-custom-status.order-status > span:after {
+    content: '\F26A';
+    font-family: bootstrap-icons !important;
+    font-size: 82%;
+    margin-left: 3px;
+    margin-right: 1px;
+    color: #fff;
+}
+
+
+td.order_number > p {
+    padding: 5px 0px 0px;
+}
+
+a.icona {
+    font-size: 9px;
+    transition: all 0.25s ease-in-out;
+
+}
+
+a.icona.icona-tel,
+a.icona.icona-whatsapp,
+a.icona.icona-mail,
+a.icona.icona-ordine {
+    background: #fff;
+    padding: 4px 5px;
+    border: 1px solid;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+a.icona.icona-tel:hover,
+a.icona.icona-whatsapp:hover,
+a.icona.icona-mail:hover,
+a.icona.icona-ordine:hover {
+    background: #2271b1;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 5px 6px;
+    margin-right: 3px;
+}
+
+a.icona.icona-whatsapp:hover {
+    background: #4caf50 !important;
+}
+
+a.icona.icona-mail:hover {
+    background: #ef3638 !important;
+}
+
+a.icona.icona-ordine i {
+    font-size: 11px;
+    margin-left: 1px;
+}
+
+span.articoli {
+    font-weight: 700;
+    position: relative;
+    top: -8px;
+    left: -12px;
+    font-size: 7px;
+    background: #3fb2eb;
+    border-radius: 50px;
+    border: 1px solid #2271b1;
+    color: #fff;
+    padding: 2px 5px;
+}
+
+.post-type-shop_order .wp-list-table .order-preview {
+    background: #e0e0e0;
+    border: 1px solid #e0e0e0;
+    color: #646970;
+    top: 1em;
+}
+
+.post-type-shop_order .wp-list-table .order-preview::before {
+    font-size: 12px;
+}
+
+.post-type-shop_order .wp-list-table .order-preview:hover {
+    background: #dcdcde;
+    border: 1px solid #dcdcde;
+    color: #2271b1;
+}
+
+a.order-view:hover {
+    border-bottom: 1px dotted;
+}
+</style>;
+
+<?php
+}
+
+
+
+
+
+/*=============================================
+=         CUSTOMER INFO ORDER                
+=============================================*/
+
+add_action( 'manage_shop_order_posts_custom_column', 'adorno_add_customer_info_order_admin_list_column_content', 20 );
+ 
+function adorno_add_customer_info_order_admin_list_column_content( $column ) {
+   
+    global $post;
+ 
+    if ( 'order_number' === $column ) {
+ 
+        $order = wc_get_order( $post->ID );
+		
+		echo '<p>';
+        echo '<a class="icona icona-tel" href="tel:' . $order->get_billing_phone() . '"><i class="bi bi-telephone-fill"></i></a>';
+		echo '<a class="icona icona-whatsapp" href="https://wa.me/39' . $order->get_billing_phone() . '"><i class="bi bi-whatsapp"></i></a>';
+        echo '<a class="icona icona-mail" href="mailto:' . $order->get_billing_email() . '"><i class="bi bi-envelope-fill"></i></a>';
+        echo '<a class="icona icona-ordine" target="_blank" href="' . $order->get_checkout_order_received_url() . '"><i class="bi bi-cart-check-fill"></i></a><span class="articoli">' . $order->get_item_count() . '</span>';
+        echo '</p>';
+		
+    }
+}
