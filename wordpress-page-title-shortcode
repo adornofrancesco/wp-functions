@@ -1,0 +1,10 @@
+/*=============================================
+=          PAGE TITLE SHORTCODE               =
+=============================================*/
+
+function get_current_page_title() {
+    return get_the_title();
+}
+add_shortcode('current-page-title', 'get_current_page_title');
+
+Use this shortcode => [current-page-title]
