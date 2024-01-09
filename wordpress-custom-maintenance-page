@@ -1,0 +1,11 @@
+/*=============================================
+=     CUSTOM MAINTENANCE WORDPRESS PAGE       =
+=============================================*/
+
+function check_for_maintenance_mode() {
+    if (!current_user_can('administrator')) {
+        include('maintenance-page.php');
+        exit();
+    }
+}
+add_action('get_header', 'check_for_maintenance_mode');
