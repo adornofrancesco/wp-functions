@@ -1,0 +1,48 @@
+/*=============================================
+=          LAST POSTS WIDGET DASHBOARD       =
+=============================================*/
+
+add_action('wp_dashboard_setup', 'custom_dashboard_widget');
+
+function custom_dashboard_widget() {
+	wp_add_dashboard_widget(
+		'custom_recent_posts_widget',          // Widget slug.
+		'Ultimi Articoli Pubblicati',          // Titolo.
+		'custom_dashboard_recent_posts'       // Funzione di visualizzazione.
+	);
+}
+
+function custom_dashboard_recent_posts() {
+    $args = array(
+        'numberposts' => 8, // Numero di post da mostrare.
+        'post_status' => 'publish' // Mostra solo i post pubblicati.
+    );
+    $recent_posts = wp_get_recent_posts($args);
+	echo '<h2 class="ps-4 pt-4">Elenco Articoli</h2>';
+    echo '<ul id="lista-articoli" class="list-group list-group-flush m-0 py-2 px-4">';
+    foreach ($recent_posts as $post) {
+        // Ottiene l'URL dell'immagine in evidenza.
+        $post_thumbnail = get_the_post_thumbnail($post['ID'], 'thumbnail', array('class' => 'bg-img'));
+		$eta = get_field('eta', $post['ID']);
+		$sesso = get_field('sesso', $post['ID']);
+		$colore = get_field('colore', $post['ID']);
+        // Se esiste un'immagine in evidenza, la include nell'output.
+        echo '<li class="list-group-item d-flex align-items-center px-0 m-0 py-2 gap-1">';
+        if ($post_thumbnail) {
+            echo '<div data-tor="hover:class.toggle(bg-darken-sm)" class="img has-bg-img bg-blend-multiply bg-gray py-5 px-6 rounded-3 ms-1"><a class="stretched-link" target="_blank" href="' . get_permalink($post['ID']) . '">' . $post_thumbnail . '</a></div>';
+        }
+        echo '<div class="d-flex flex-column fs-13px ps-3">
+		<a class="text-navy fw-bold fs-16px pb-1 stretched--link" target="_blank" href="' . get_permalink($post['ID']) . '">' . $post['post_title'] . '</a>
+		<div class="">
+			<div class=""><span class="fs-13px">Eta:</span><span class="fw-600"> ' . esc_html($eta) . '</span></div>
+			<div class=""><span class="fs-13px">Sesso:</span><span class="fw-600"> ' . esc_html($sesso) . '</span></div>
+			<div class=""><span class="fs-13px">Colore:</span><span class="fw-600"> ' . esc_html($colore) . '</span></div>
+			<div class=""><span class="d-none">' . get_the_date('j-m-Y', $post['ID']) . '</span></div>
+		</div>
+		</div>
+		</li>';
+        echo '<div></div>'; // Pulisce dopo l'immagine flottante per evitare sovrapposizioni.
+    }
+    echo '</ul>';
+	echo '<p class="text-center pb-4 pt-2 mb-0 px-3"><a data-tor="hover:class.toggle(shadow-intensity-md shadow-offset-down-sm) hover:push.up(xs)" href="/wp-admin/edit.php" class="button button-primary button-large rounded-xl shadow">Vedi Cavalli<span style="vertical-align:middle;line-height:18px;font-size:16px;" class="dashicons dashicons-arrow-right-alt2"></span></a></p>';
+}
