@@ -1,0 +1,51 @@
+function cerca_articoli_con_acf($query) {
+    if ($query->is_search && !is_admin()) {
+        $meta_query = array('relation' => 'AND'); // Utilizza 'AND' se vuoi che tutti i criteri corrispondano
+
+        if (!empty($_GET['colore'])) {
+            $meta_query[] = array(
+                'key' => 'colore',
+                'value' => sanitize_text_field($_GET['colore']),
+                'compare' => 'LIKE'
+            );
+        }
+
+        if (!empty($_GET['eta'])) {
+            $meta_query[] = array(
+                'key' => 'eta',
+                'value' => sanitize_text_field($_GET['eta']),
+                'compare' => 'LIKE'
+            );
+        }
+
+        if (!empty($_GET['sesso'])) {
+            $meta_query[] = array(
+                'key' => 'sesso',
+                'value' => sanitize_text_field($_GET['sesso']),
+                'compare' => 'LIKE'
+            );
+        }
+		
+		if (!empty($_GET['sire'])) {
+            $meta_query[] = array(
+                'key' => 'sire',
+                'value' => sanitize_text_field($_GET['sire']),
+                'compare' => 'LIKE'
+            );
+        }
+		
+		if (!empty($_GET['dam'])) {
+            $meta_query[] = array(
+                'key' => 'dam',
+                'value' => sanitize_text_field($_GET['dam']),
+                'compare' => 'LIKE'
+            );
+        }
+
+        if (count($meta_query) > 1) { // C'è almeno una condizione oltre alla relazione
+            $query->set('meta_query', $meta_query);
+        }
+    }
+    return $query;
+}
+add_filter('pre_get_posts', 'cerca_articoli_con_acf');
