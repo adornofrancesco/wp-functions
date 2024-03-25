@@ -1,0 +1,87 @@
+<div class="container-xl px-3 pt-3 pt-lg-0">
+	<form class="row align-items-lg-center g-2 mb-2 needs-validation" novalidate role="search" method="get" id="searchform" action="<?php echo home_url('/'); ?>">		
+  <div class="col-12 col-lg-4 my-1">
+    <div class="form-floating bg-white rounded-lg">
+      <input type="search" class="form-control form-control-sm text-dark fs-15px fw-500 rounded-lg border shadow-none px-3" autocomplete="off" list="datalistOptions" name="s" id="s" placeholder="Cerca cavallo..." value="<?php echo get_search_query(); ?>">
+		<datalist id="datalistOptions">
+		<?php $rand_posts = get_posts( array('post_type' => 'post', 'posts_per_page' => 6, 'order' => 'DESC', 'orderby' => 'title' ) ); if ( $rand_posts ) { $i = 0; foreach ( $rand_posts as $post ) : setup_postdata( $post ); $i++; ?>
+		<option value="<?php the_title();?>"></option>
+		<?php endforeach; wp_reset_postdata(); } ?>
+		</datalist>
+      <label for="s" class="fs-14px px-3">Cerca cavallo</label>
+    </div>
+  </div>
+  <div class="col-12 col-lg-2 my-1">
+    <div class="form-floating bg-white rounded-lg">
+      <input type="search" class="form-control form-control-sm text-dark fs-15px fw-500 rounded-lg border shadow-none px-3" autocomplete="off" list="datalistEta" name="eta" id="eta" placeholder="Età..." value="<?php echo isset($_GET['eta']) ? esc_attr($_GET['eta']) : ''; ?>">
+		<datalist id="datalistEta">
+		<?php $rand_posts = get_posts( array('post_type' => 'post', 'posts_per_page' => 6, 'order' => 'ASC', 'orderby' => 'title' ) ); if ( $rand_posts ) { $i = 0; foreach ( $rand_posts as $post ) : setup_postdata( $post ); $i++; ?>
+		<option value="<?php the_field('eta');?>"></option>
+		<?php endforeach; wp_reset_postdata(); } ?>
+		</datalist>
+      <label for="eta" class="fs-14px px-3">Età</label>
+    </div>
+  </div>
+  <div class="col-12 col-lg-3 my-1">
+    <div class="form-floating bg-white rounded-lg">
+      <input type="search" class="form-control form-control-sm text-dark fs-15px fw-500 rounded-lg border shadow-none px-3" autocomplete="off" list="datalistSire" name="sire" id="sire" placeholder="Sire..." value="">
+		<datalist id="datalistSire">
+		<?php $rand_posts = get_posts( array('post_type' => 'post', 'posts_per_page' => 6, 'order' => 'ASC', 'orderby' => 'title' ) ); if ( $rand_posts ) { $i = 0; foreach ( $rand_posts as $post ) : setup_postdata( $post ); $i++; ?>
+		<option value="<?php the_field('sire');?>"></option>
+		<?php endforeach; wp_reset_postdata(); } ?>
+		</datalist>
+      <label for="sire" class="fs-14px px-3">Sire</label>
+    </div>
+  </div>
+  <div class="col-12 col-lg-3 my-1">
+    <div class="form-floating bg-white rounded-lg">
+      <input type="search" class="form-control form-control-sm text-dark fs-15px fw-500 rounded-lg border shadow-none px-3" autocomplete="off" list="datalistDam" name="dam" id="dam" placeholder="Dam..." value="">
+		<datalist id="datalistDam">
+		<?php $rand_posts = get_posts( array('post_type' => 'post', 'posts_per_page' => 6, 'order' => 'ASC', 'orderby' => 'title' ) ); if ( $rand_posts ) { $i = 0; foreach ( $rand_posts as $post ) : setup_postdata( $post ); $i++; ?>
+		<option value="<?php the_field('dam');?>"></option>
+		<?php endforeach; wp_reset_postdata(); } ?>
+		</datalist>
+      <label for="dam" class="fs-14px px-3">Dam</label>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3 my-1">
+	  <label class="d-block fs-14px opacity-80 mt-1 mb-1 mb-lg-0 px-2">Sesso:</label>
+	  <div class="d-flex justify-content-start flex-column flex-lg-row px-2 py-2 fs-15px mt-n1">
+		<div class="form-check form-check-inline me-2 mt-n1 mt-lg-0 fs-14px">
+		  <input class="form-check-input rounded-0 shadow-none" type="checkbox" name="sesso" id="maschio" value="Maschio" <?php echo (isset($_GET['sesso']) && $_GET['sesso'] === 'Maschio') ? 'checked' : ''; ?>>
+		  <label class="form-check-label opacity-80 ms--n1" for="maschio">Maschio</label>
+		</div>
+		<div class="form-check form-check-inline me-2 mt-n1 mt-lg-0 fs-14px">
+		  <input class="form-check-input rounded-0 shadow-none" type="checkbox" name="sesso" id="femmina" value="Femmina" <?php echo (isset($_GET['sesso']) && $_GET['sesso'] === 'Femmina') ? 'checked' : ''; ?>>
+		  <label class="form-check-label opacity-80 ms--n1" for="femmina">Femmina</label>
+		</div>
+		<div class="form-check form-check-inline mt-n1 mt-lg-0 fs-14px">
+		  <input class="form-check-input rounded-0 shadow-none" type="checkbox" name="sesso" id="castrone" value="Castrone" <?php echo (isset($_GET['sesso']) && $_GET['sesso'] === 'Castrone') ? 'checked' : ''; ?>>
+		  <label class="form-check-label opacity-80 ms--n1" for="castrone">Castrone</label>
+		</div>
+	  </div>
+  </div>
+  <div class="col-6 col-lg-4 my-1 ms-lg-4">
+	  <label class="d-block fs-14px opacity-80 mt-1 mb-1 mb-lg-0 px-2">Colore:</label>
+	  <div class="d-flex justify-content-start flex-column flex-lg-row px-2 py-2 fs-15px mt-n1">
+		<div class="form-check form-check-inline me-2 mt-n1 mt-lg-0 fs-14px">
+		  <input class="form-check-input rounded-0 shadow-none" type="checkbox" name="colore" id="sauro" value="Sauro" <?php echo (isset($_GET['colore']) && $_GET['colore'] === 'Sauro') ? 'checked' : ''; ?>>
+		  <label class="form-check-label opacity-80 ms--n1" for="sauro">Sauro</label>
+		</div>
+		<div class="form-check form-check-inline mt-n1 mt-lg-0 fs-14px">
+		  <input class="form-check-input rounded-0 shadow-none" type="checkbox" name="colore" id="baio" value="Baio" <?php echo (isset($_GET['colore']) && $_GET['colore'] === 'Baio') ? 'checked' : ''; ?>>
+		  <label class="form-check-label opacity-80 ms--n1" for="baio">Baio</label>
+		</div>
+		<div class="form-check form-check-inline mt-n1 mt-lg-0 fs-14px">
+		  <input class="form-check-input rounded-0 shadow-none" type="checkbox" name="colore" id="sorrel-tobiano" value="Sorrel Tobiano" <?php echo (isset($_GET['colore']) && $_GET['colore'] === 'Sorrel Tobiano') ? 'checked' : ''; ?>>
+		  <label class="form-check-label opacity-80 ms--n1" for="baio">Sorrel Tobiano</label>
+		</div>
+	  </div>
+  </div>
+  <div class="col-12 col-lg-3 ms-auto my-1">
+    <div class="form-group">
+      <button data-tor="hover:class.toggle(shadow-none shadow-lg shadow-pop shadow-intensity-lg)" type="submit" id="searchsubmit" class="btn btn-dark text-uppercase shadow-none rounded-lg fs--16px fw-500 py-2 lh-lg px-3 w-100">Cerca<i class="bi bi-search d-none px-2"></i></button>
+    </div>
+  </div>
+</form>
+</div>
