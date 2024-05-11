@@ -1,6 +1,6 @@
-#Preload critical assets to improve loading speed
-
-##If you want to preload specific stylesheet, use this code:
+/*=================================================================
+=    PRELOAD CRITICAL ASSETS TO IMPROVE LOADING SPEED             =
+=================================================================*/
 
 <!-- GOOGLE FONTS PRELOAD -->
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,100;0,300;0,400;0,600;0,700;0,900;1,100;1,300;1,400;1,600;1,700;1,900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -12,7 +12,9 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 </noscript>
 
-Read more:
+/*=================================================================
+=                         READ MORE                              =
+=================================================================*/
 
 Mozilla: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/preload
 Chrome: https://web.dev/articles/preload-critical-assets?hl=it
