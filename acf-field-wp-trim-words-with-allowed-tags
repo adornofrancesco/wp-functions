@@ -1,0 +1,12 @@
+<?php 
+$descrizione = get_field('descrizione');
+$descrizione_trimmed = wp_trim_words($descrizione, 14, '...');
+$allowed_tags = array(
+'b' => array(),
+'strong' => array(),
+'i' => array(),
+'em' => array(),
+'u' => array(),
+);
+echo wp_kses_post($descrizione_trimmed, $allowed_tags);
+?>
