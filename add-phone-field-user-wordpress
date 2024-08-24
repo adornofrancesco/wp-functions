@@ -1,0 +1,44 @@
+// Aggiunge il campo Telefono nelle Informazioni di contatto nel backend del profilo utente
+function custom_contact_info_fields($user_contact_methods) {
+    // Aggiungi il campo Telefono
+    $user_contact_methods['phone'] = __('Telefono', 'your_text_domain');
+    return $user_contact_methods;
+}
+
+add_filter('user_contactmethods', 'custom_contact_info_fields');
+
+// Aggiunge il campo Telefono nel profilo utente
+function custom_user_profile_fields($user) {
+    ?>
+    <h3><?php _e("Informazioni di contatto aggiuntive", "your_text_domain"); ?></h3>
+
+    <table class="form-table">
+        <tr>
+            <th>
+                <label for="phone"><?php _e("Telefono"); ?></label>
+            </th>
+            <td>
+                <input type="text" name="phone" id="phone" value="<?php echo esc_attr(get_the_author_meta('phone', $user->ID)); ?>" class="regular-text" /><br />
+                <span class="description"><?php _e("Inserisci il numero di telefono."); ?></span>
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+
+add_action('show_user_profile', 'custom_user_profile_fields');
+add_action('edit_user_profile', 'custom_user_profile_fields');
+
+// Salva il campo Telefono quando viene aggiornato il profilo utente
+function save_custom_user_profile_fields($user_id) {
+    // Verifica se l'utente ha i permessi per modificare
+    if (!current_user_can('edit_user', $user_id)) {
+        return false;
+    }
+
+    // Salva il numero di telefono
+    update_user_meta($user_id, 'phone', sanitize_text_field($_POST['phone']));
+}
+
+add_action('personal_options_update', 'save_custom_user_profile_fields');
+add_action('edit_user_profile_update', 'save_custom_user_profile_fields');
