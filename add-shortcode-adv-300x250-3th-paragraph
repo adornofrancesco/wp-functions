@@ -1,0 +1,31 @@
+/*========================================================
+=      ADD SHORTCODE ADV 300x250 3TH PARAG  =
+========================================================*/
+
+add_filter('the_content', 'adv_300250');
+function adv_300250($content){
+    if(is_single()){
+        // Inizia l'output buffering
+        ob_start();
+        // Carico il template part specificato
+        get_template_part('shortcode/adv/300x250');
+        // Salvo l'output del template part in una variabile e termino l'output buffering
+        $adsCode = '<div class="my-2 mx-auto">' . ob_get_clean() . '</div>';
+        
+        // Mostro questo annuncio dopo il numero di paragrafo specificato - esempio -> 3 = Dopo il terzo paragrafo
+        $insertAfter = 3;
+        
+        $closingP = '</p>';
+        $contentBlock = explode($closingP, $content);
+        foreach($contentBlock as $key => $con){
+            if(trim($con)) {
+                $contentBlock[$key] .= $closingP;
+            }
+            if(($key + 1) == $insertAfter){ 
+                $contentBlock[$key] .= $adsCode;
+            }
+        }
+        $content = implode('', $contentBlock);
+    }
+    return $content;    
+}
