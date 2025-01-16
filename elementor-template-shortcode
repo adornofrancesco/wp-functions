@@ -1,0 +1,30 @@
+/*=============================================
+=          ELEMENTOR SHORTCODE              =
+=============================================*/
+
+// Funzione per visualizzare un template Elementor tramite shortcode
+function visualizza_elementor_template($atts) {
+    // Estrai l'ID del template passato come attributo
+    $atts = shortcode_atts(
+        array(
+            'id' => '', // ID del template Elementor
+        ),
+        $atts,
+        'elementor_template'
+    );
+
+    // Verifica se l'ID è valido
+    if (empty($atts['id'])) {
+        return 'Errore: specifica un ID valido del template Elementor.';
+    }
+
+    // Usa il metodo di Elementor per renderizzare il template
+    if (class_exists('\Elementor\Plugin')) {
+        return \Elementor\Plugin::instance()->frontend->get_builder_content_for_display($atts['id']);
+    }
+
+    return 'Errore: Elementor non è attivo o installato.';
+}
+
+// Registra lo shortcode
+add_shortcode('elementor_template', 'visualizza_elementor_template');
