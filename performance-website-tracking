@@ -1,0 +1,20 @@
+function track_performance() {
+    ?>
+    <script>
+    function trackPerformance() {
+        if ('performance' in window) {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+                }, 0);
+            });
+        }
+    }
+    
+    // Initialize performance tracking
+    trackPerformance();
+    </script>
+    <?php
+}
+add_action('wp_footer', 'track_performance');
