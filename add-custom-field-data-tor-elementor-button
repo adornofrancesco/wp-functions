@@ -1,0 +1,35 @@
+
+
+/**
+ * Aggiunge un campo personalizzato Data Tor al widget Pulsante di Elementor.
+ */
+function aggiungi_campo_personalizzato_data_tor_al_pulsante( $element, $args ) {
+
+    // Aggiunge un nuovo controllo (campo)
+    $element->add_control(
+        'data_tor', // ID univoco del nostro campo
+        [
+            'label' => __( 'Data Tor', 'text-domain' ), // Etichetta visualizzata nell'editor
+            'type' => \Elementor\Controls_Manager::TEXT, // Tipo di campo (testo)
+            'tab' => \Elementor\Controls_Manager::TAB_CONTENT, // Tab in cui appare (Contenuto)
+            'section' => 'section_button', // Sezione in cui appare (la sezione principale del pulsante)
+            'selector' => '{{WRAPPER}} .elementor-button', // Selettore CSS a cui applicare eventuali stili
+        ]
+    );
+
+}
+add_action( 'elementor/element/button/section_button/before_section_end', 'aggiungi_campo_personalizzato_data_tor_al_pulsante', 10, 2 );
+
+/**
+ * Applica l'attributo personalizzato Data Tor al rendering del pulsante.
+ */
+function rendi_attributo_pulsante_data_tor_personalizzato( $widget ) {
+
+    $settings = $widget->get_settings_for_display();
+
+    if ( ! empty( $settings['data_tor'] ) ) {
+        $widget->add_render_attribute( 'button', 'data-tor', esc_attr( $settings['data_tor'] ) );
+    }
+
+}
+add_action( 'elementor/widget/before_render_content', 'rendi_attributo_pulsante_data_tor_personalizzato' );
